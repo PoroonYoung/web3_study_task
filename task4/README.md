@@ -1,56 +1,32 @@
-# Web3 Study Task4 - RESTful API
+# Web3 Study Task4 - 博客系统 API
 
-基于 Go + Gin + GORM 的标准化 Web API 项目。
+基于 Go + Gin + GORM 实现的博客系统后端 API，支持用户认证、文章管理和评论功能。
 
-## 项目结构
+## 项目功能
 
-```
-task4/
-├── cmd/server/          # 应用程序入口
-│   └── main.go
-├── config/              # 配置文件
-│   ├── config.yaml      # yaml 配置文件
-│   └── config.go        # 配置结构定义
-├── internal/            # 内部包（不对外暴露）
-│   ├── handler/         # HTTP 处理器（控制器层）
-│   │   └── user.go
-│   ├── service/         # 业务逻辑层
-│   │   └── user.go
-│   ├── repository/      # 数据访问层
-│   │   └── user.go
-│   └── middleware/      # 中间件
-│       └── auth.go
-├── pkg/                 # 可重用的包
-│   ├── entity/          # 数据实体
-│   │   ├── User.go
-│   │   ├── Post.go
-│   │   └── Comment.go
-│   ├── jwt/             # JWT 工具
-│   │   └── jwtutil.go
-│   ├── response/        # 响应处理
-│   │   └── response.go
-│   └── utils/           # 工具函数
-└── README.md
-```
+### 用户系统
+- 用户登录认证（JWT Token）
+- 获取用户信息
+- JWT 中间件保护需要认证的接口
 
-## 技术栈
+### 文章管理
+- 创建文章（需认证）
+- 查看文章详情（公开）
+- 获取所有文章列表（公开，支持分页）
+- 获取用户的文章列表（需认证，支持分页）
+- 更新文章（需认证，只能修改自己的文章）
+- 删除文章（需认证，只能删除自己的文章）
 
-- **语言**: Go 1.24+
-- **Web框架**: Gin
-- **ORM**: GORM
-- **数据库**: MySQL
-- **认证**: JWT
-- **配置**: YA=ML
+### 评论系统
+- 发布评论（需认证）
+- 查看文章的所有评论（公开）
 
-## 功能特性
-
-- ✅ 标准化的项目结构
-- ✅ 分层架构（Handler -> Service -> Repository）
-- ✅ JWT 认证中间件
-- ✅ 配置文件管理
-- ✅ 统一响应格式
-- ✅ 数据库连接池
-- ✅ GORM 关联关系（无外键约束）
+### 系统功能
+- 全局异常处理中间件
+- 统一的 JSON 响应格式
+- YAML 配置文件管理
+- MySQL 数据库连接池
+- GORM 自动建表和关联关系
 
 ## 快速开始
 
@@ -83,79 +59,123 @@ go run cmd/server/main.go
 
 ## API 接口
 
-### 认证相关
+### 用户认证
 
 #### 用户登录
 ```
-POST /user/login?username=admin&password=admin
+POST /api/user/login?username=admin&password=admin
 ```
 
-响应：
-```json
-{
-  "code": 200,
-  "message": "success",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "expires_in": 604800,
-    "user": {
-      "id": 1,
-      "username": "admin",
-      "email": "admin@example.com"
-    }
-  }
-}
-```
-
-### 用户相关（需要认证）
-
-#### 获取用户信息
+#### 获取用户信息（需认证）
 ```
 GET /api/user/getUserInfo
 Authorization: Bearer <token>
 ```
 
-#### 测试接口
+### 文章管理
+
+#### 查看文章详情（公开）
 ```
-GET /api/hello
+GET /api/post/:id
+```
+
+#### 获取所有文章列表（公开）
+```
+GET /api/post/list?page=1&pageSize=10
+```
+
+#### 创建文章（需认证）
+```
+POST /api/post/create
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "title": "文章标题",
+  "content": "文章内容"
+}
+```
+
+#### 获取我的文章列表（需认证）
+```
+GET /api/post/my?page=1&pageSize=10
 Authorization: Bearer <token>
 ```
 
-## 配置说明
+#### 更新文章（需认证）
+```
+POST /api/post/update
+Authorization: Bearer <token>
+Content-Type: application/json
 
-### 服务器配置
-- `port`: 服务端口
-- `mode`: 运行模式 (debug/release/test)
+{
+  "id": 1,
+  "title": "更新的标题",
+  "content": "更新的内容"
+}
+```
 
-### 数据库配置
-- 支持连接池配置
-- 自动迁移数据表
-- 禁用外键约束（保持数据灵活性）
+#### 删除文章（需认证）
+```
+POST /api/post/delete/:id
+Authorization: Bearer <token>
+```
 
-### JWT 配置
-- 可配置密钥和过期时间
-- 支持自定义发行方
-- 安全的 token 验证
+### 评论管理
 
-## 开发规范
+#### 查看文章评论（公开）
+```
+GET /api/comment/all/:postId
+```
 
-### 目录说明
-- `cmd/`: 应用程序入口点
-- `internal/`: 项目内部代码，不对外暴露
-- `pkg/`: 可以被外部项目使用的库代码
-- `config/`: 配置文件和配置相关代码
+#### 发布评论（需认证）
+```
+POST /api/comment/publish
+Authorization: Bearer <token>
+Content-Type: application/json
 
-### 分层架构
-1. **Handler层**: 处理HTTP请求，参数验证，调用Service
-2. **Service层**: 业务逻辑处理，调用Repository
-3. **Repository层**: 数据访问，数据库操作
-4. **Entity层**: 数据模型定义
+{
+  "postId": 1,
+  "content": "评论内容"
+}
+```
 
-## 扩展功能
+## 数据库表结构
 
-项目支持轻松扩展：
-- 添加新的实体和关联关系
-- 实现更多业务接口
-- 集成更多中间件（日志、限流等）
-- 添加单元测试
-- 集成 Docker 部署
+### 用户表 (users)
+- id: 主键
+- username: 用户名
+- password: 密码（加密存储）
+- email: 邮箱
+- created_at, updated_at: 时间戳
+
+### 文章表 (posts)
+- id: 主键
+- title: 文章标题
+- content: 文章内容
+- user_id: 作者ID（关联用户表）
+- created_at, updated_at: 时间戳
+
+### 评论表 (comments)
+- id: 主键
+- content: 评论内容
+- post_id: 文章ID（关联文章表）
+- user_id: 评论者ID（关联用户表）
+- created_at, updated_at: 时间戳
+
+## 技术栈
+
+- **语言**: Go
+- **Web框架**: Gin
+- **ORM**: GORM
+- **数据库**: MySQL
+- **认证**: JWT
+- **配置**: YAML
+
+## 项目架构
+
+采用分层架构设计：
+- **Handler层**: 处理HTTP请求和响应
+- **Service层**: 业务逻辑处理
+- **Repository层**: 数据库操作
+- **Entity层**: 数据模型定义
