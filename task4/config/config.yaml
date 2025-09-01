@@ -1,0 +1,28 @@
+server:
+  port: ":8080"
+  mode: "debug" # debug, release, test
+
+database:
+  host: "49.235.100.155"
+  port: 3306
+  username: "root"
+  password: "imh@2025"
+  dbname: "db1"
+  charset: "utf8mb4"
+  parse_time: true
+  loc: "Local"
+  max_idle_conns: 10
+  max_open_conns: 100
+  conn_max_lifetime: 3600 # seconds
+
+jwt:
+  secret_key: "poroon_secret_key_for_jwt_token_dev"
+  expire_hours: 168 # 7 days = 7 * 24 hours
+  issuer: "web3-study-app"
+
+log:
+  level: "info" # debug, info, warn, error
+  file_path: "logs/app.log"
+  max_size: 100 # MB
+  max_backups: 5
+  max_age: 30 # days
