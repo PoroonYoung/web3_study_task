@@ -1,0 +1,65 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "source",
+						"type": "string"
+					}
+				],
+				"name": "reverseStringForAsc",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ReverseString.sol": "ReverseString"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ReverseString.sol": {
+			"keccak256": "0xc6f8c6bb73016d4b28935e7761857e11379e3aabfaea5a7b84e3e206860b935a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d28386fb74dac7a5c345387919acbcee6f28f009aff3aa798ce55a5c66dfdebf",
+				"dweb:/ipfs/QmbTcwGEhcL926B5MKj6ZEhn32QByDJBdSPFzoF4yWCCZW"
+			]
+		}
+	},
+	"version": 1
+}
