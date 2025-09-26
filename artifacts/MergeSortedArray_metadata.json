@@ -1,0 +1,59 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "mergeSortedArray",
+				"outputs": [
+					{
+						"internalType": "int8[]",
+						"name": "",
+						"type": "int8[]"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/MergeSortedArray.sol": "MergeSortedArray"
+		},
+		"evmVersion": "prague",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/MergeSortedArray.sol": {
+			"keccak256": "0xa466b467bac30dae8d88169bca8e248c3be898a9f0434f33862e48bbe8425f64",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5249e8f0b889daee17a5c8f7afa089e5b91f22de52e208ad141a19db49fb04fb",
+				"dweb:/ipfs/QmY6zTkM8pnEEFLd4NMA4UDjv4jGwVdXY2nsMFEDgnaWDU"
+			]
+		}
+	},
+	"version": 1
+}
